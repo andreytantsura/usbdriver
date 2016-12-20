@@ -1,0 +1,290 @@
+\documentclass[a4paper]{article}
+\usepackage[14pt]{extsizes}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{setspace,amsmath}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.png,.jpg}
+%\DefineShortVerb{\|}
+%\usepackage[argument]{graphicx}
+%\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[left=20mm, top=15mm, right=15mm, bottom=15mm, nohead, footskip=10mm]{geometry} % настройки полей документа
+
+
+
+\begin{document}
+
+\begin{titlepage}
+	\begin{center}
+		МИНИСТЕРСТВО ОБРАЗОВАНИЯ И НАУКИ РОССИЙСКОЙ ФЕДЕРАЦИИ
+		ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ АВТОНОМНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ
+		ВЫСШЕГО ОБРАЗОВАНИЯ
+		«САНКТ-ПЕТЕРБУРГСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ
+		АЭРОКОСМИЧЕСКОГО ПРИБОРОСТРОЕНИЯ» \\
+		\vspace{1cm}
+		КАФЕДРА КОМПЬЮТЕРНЫХ ТЕХНОЛОГИЙ И ПРОГРАММНОЙ ИНЖЕНЕРИИ
+	\end{center}
+
+	\vspace{1cm}
+	\begin{flushleft}
+		КУРСОВОЙ ПРОЕКТ \\
+		ЗАЩИЩЕН С ОЦЕНКОЙ \\
+		РУКОВОДИТЕЛЬ \\
+	\end{flushleft}
+
+	\begin{tabular}{p{4cm} p{0.5cm} p{4cm} p{0.5cm} p{4cm}}
+		\centering ст.преп. & & & & \hspace{0.9cm} Поляк М.Д. \\
+		\cline{1-1} \cline{3-3} \cline{5-5}
+		\centering \tiny{должность, уч. степень, звание} & &
+		\centering \tiny{подпись, дата} & &
+		\centering \tiny{инициалы, фамилия}
+	\end{tabular}
+
+	\begin{center}
+		\begin{tabular}{p{13cm}}
+			\vspace{2.5cm} \\
+			\begin{center}
+				ПОЯСНИТЕЛЬНАЯ ЗАПИСКА \\
+				К КУРСОВОМУ ПРОЕКТУ \\
+				\vspace{0.5cm}
+				СОЗДАНИЕ USB ДРАЙВЕРА \\
+				\vspace{0.5cm}
+				по дисциплине: ОПЕРАЦИОННЫЕ СИСТЕМЫ И СЕТИ
+			\end{center}
+		\end{tabular}
+	\end{center}
+
+	\vspace{2.5cm}
+	\begin{flushleft}
+		РАБОТУ ВЫПОЛНИЛ
+	\end{flushleft}
+
+	\begin{tabular}{p{3cm} p{1cm} p{0.5cm} p{3.5cm} p{0.5cm} p{3.5cm}}
+		СТУДЕНТ ГР. & 4331 & & & & {} \\
+		\cline{2-2} \cline{4-4} \cline{6-6}
+		& & & \centering \tiny{подпись, дата}
+		& & \centering \tiny{инициалы, фамилия}
+	\end{tabular}
+
+	\begin{center}
+		\vspace{1cm}
+		Санкт-Петербург \\
+		2016
+	\end{center}
+\end{titlepage}
+
+\newpage
+
+\section{Цель работы}
+
+\normalsize Цель работы: Знакомство с устройством ядра ОС Linux. Получение опыта разработки драйвера устройства.
+
+\section{Задание(4 вариант)}
+
+Добавление защиты от несанкционированного запуска операционной системы.
+Необходимо внести изменения в процесс загрузки ядра Linux, добавив проверку наличия
+подключенного через интерфейс USB flash-накопителя с заданным серийным номером.
+Если в процессе загрузки операционной системы нужный flash-накопитель подключен к
+одному из портов USB, то операционная система успешно загружается в штатном режиме.
+Если flash-накопитель с нужным серийным номером отсутствует, необходимо
+приостановить загрузку операционной системы и предоставить пользователю три попытки
+подключить нужный flash-накопитель. Если пользователь три раза подключает flash-
+накопитель с неправильным серийным номером, произвести выключение компьютера.
+Если же пользователь подключит нужный flash-накопитель, продолжить загрузку
+операционной системы в штатном режиме.
+
+\section{Техническая документация}
+\begin{enumerate}
+	\item Сборка проекта: \\
+		Скачиваем файлы с репозитория на github при помощи команды: \begin{verbatim}
+	git clone https://github.com/andreytantsura/usbdriver.git
+\end{verbatim} 
+	\item Добавление в автозагрузку: \\
+	Шаг 1: Собираем драйвер (test.ko) с помощью запуска команды make.
+	 \\
+	Шаг 2: Копируем файл в папку /lib/modules/версия ядра/test.ko.
+	  \\
+	Шаг 3: Добавляем драйвер в автозагрузку с помощью команды depmod test.ko.
+	  \\
+	Шаг 4:Отключаем флеш-устройство при загрузке системы.
+	 \\
+	Шаг 5: Перезгружаем систему.
+	  \\
+	Шаг 6:	Все работает, система требует флешку для запуска.
+\end{enumerate}
+\newpage
+
+\section{Скриншоты}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{1}
+  \caption{Вставка неправильной флешки}\label{fig:1}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{2}
+  \caption{Вставка неправильной флешки третий раз перезагрузка компьютера}\label{fig:1}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{3}
+  \caption{Вставка коректной флешки}\label{fig:1}
+\end{figure}
+
+\section{Выводы}
+	В процессе выполнения данной курсовой работы мною были получены знания и навыки, необходимые для работы с ядром ОС Linux, а так же знания и навыки в разработке драйверов устройств.
+\newpage
+\section{Приложение}
+\begin{verbatim}
+test.c:
+
+#include <linux/kernel.h>
+#include <linux/module.h>
+#include <linux/usb.h>
+#include <linux/sched.h>
+#include <linux/kthread.h>
+#include <linux/types.h>
+#include <linux/tty.h>    
+#include <linux/version.h> 
+#include <linux/delay.h> 
+#include <linux/reboot.h> 
+
+struct task_struct *tAgetty;
+struct task_struct *task;
+bool stopThread = true;
+bool isTry = true;
+static int param = 1;
+module_param( param, int, 0 );
+int countTry = 3;
+
+static int thread_agetty_uninterrupyible( void * data) 
+{
+	// основной цикл потока
+	while(stopThread)
+	{
+		for_each_process(task)
+		{
+
+			if (strcmp(task->comm, "agetty") == 0 && task->state == TASK_INTERRUPTIBLE)
+			{
+				ssleep(1);
+				printk(KERN_ERR "tty: %s [%d] %u \n", task->comm , task->pid, (u32)task->state);
+				task->state = TASK_UNINTERRUPTIBLE;
+			}
+		}
+	}
+	if (countTry <= 0)
+	{
+		printk(KERN_ERR "Your computer will reboot in 3...\n");
+		ssleep(1);
+		printk(KERN_ERR "Your computer will reboot in 2...\n");
+		ssleep(1);
+		printk(KERN_ERR "Your computer will reboot in 1...\n");
+		ssleep(1);
+		kernel_restart(NULL);		
+	}
+
+	return -1;
+}
+
+static int pen_probe(struct usb_interface *interface, const struct usb_device_id *id)
+{
+	struct usb_device *dev = interface_to_usbdev(interface);
+	printk(KERN_ERR "Connect your USB-device:\n");
+
+	printk( KERN_ERR "idVendor=0x%hX, idProduct=0x%hX, bcdDevice=0x%hX\n",
+		dev->descriptor.idVendor,
+		dev->descriptor.idProduct, dev->descriptor.bcdDevice ); 
+	
+	if (isTry)
+	{
+		if (dev->descriptor.idVendor == 0x8564 && dev->descriptor.idProduct == 0x1000)
+		{
+			stopThread = false;
+			isTry = false;
+			ssleep(1);
+			for_each_process(task)
+			{
+				if (strcmp(task->comm, "agetty") == 0 && task->state == TASK_UNINTERRUPTIBLE)
+				{
+					printk(KERN_ERR "flash: %s [%d] %u \n", task->comm , task->pid, (u32)task->state);
+					task->state = TASK_INTERRUPTIBLE;
+				}
+			}
+		} else {
+
+			countTry--;
+			printk(KERN_ERR "Tries left:  %i \n", countTry);
+			if (countTry <= 0)
+			{
+				stopThread = false;
+			}
+		}		
+	}
+
+	
+	return 0;
+}
+
+static void pen_disconnect(struct usb_interface *interface)
+{
+	printk(KERN_ERR "flash: disconnect\n");
+}
+
+static struct usb_device_id pen_table[] =
+{
+	{ USB_DEVICE(0x13FE, 0x3E00) },
+	{ USB_DEVICE(0x8564, 0x1000) },
+    	{} /* Terminating entry */
+};
+
+MODULE_DEVICE_TABLE (usb, pen_table);
+
+static struct usb_driver pen_driver =
+{
+	.name = "driver",
+	.probe = pen_probe,
+	.disconnect = pen_disconnect,
+	.id_table = pen_table,
+};
+
+static int __init pen_init(void)
+{
+	printk("init: start\n");
+
+	// поток блокирования tty
+	tAgetty = kthread_create( thread_agetty_uninterrupyible, NULL, "agetty_uninterrupyible" );
+
+	if (!IS_ERR(tAgetty))
+	{
+		printk(KERN_INFO "thread: %s start\n", tAgetty->comm);
+		wake_up_process(tAgetty);
+	}
+	else
+	{
+		printk(KERN_ERR "thread: agetty_uninterrupyible error\n");
+		WARN_ON(1);
+	}
+
+
+	return usb_register(&pen_driver);
+}
+
+static void __exit pen_exit(void)
+{
+	usb_deregister(&pen_driver);
+}
+
+module_init(pen_init);
+module_exit(pen_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("none");
+MODULE_DESCRIPTION("USB Pen Info Driver");
+\end{verbatim}
+\end{document}  
